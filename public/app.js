@@ -1,13 +1,7 @@
 //Note: You do NOT need to create an external JS file for this project despite any instructions you may see in Canvas. This file, app.js, is the only external JS file you need.
 
-console.log('Hello')
-
 // Create map:                                                       
-const map = L.map('map', {
-    center: [48.868672, 2.342130],
-    zoom: 12,
-});
-
+var map = L.map('map').setView([51.505, -0.09], 13);
 
 // Add OpenStreetMap tiles:
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -15,26 +9,46 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-//Note: Replace 'https://.tile.openstreetmap.org///.png' with 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' in this copy/paste part in the Canvas activity instructions
-
-
 
 // Create and add a geolocation marker:
-const marker = L.marker([48.87007, 2.346453])
-marker.addTo(map).bindPopup('<p1><b>The Hoxton, Paris</b></p1>').openPopup()
-
-
-
+var marker = L.marker([51.5, -0.09]).addTo(map);
 
 
 // Draw the 2nd arrondissement
-
-
+var circle = L.circle([51.508, -0.11], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(map);
 
 
 // Metro station markers
-
-
+var polygon = L.polygon([
+    [51.509, -0.08],
+    [51.503, -0.06],
+    [51.51, -0.047]
+]).addTo(map);
 
 
 // Create red pin marker
+marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+circle.bindPopup("I am a circle.");
+polygon.bindPopup("I am a polygon.");
+
+var popup = L.popup()
+    .setLatLng([51.513, -0.09])
+    .setContent("I am a standalone popup.")
+    .openOn(map);
+
+var popup = L.popup();
+
+//On click 'Popup'!
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+}
+
+map.on('click', onMapClick);
